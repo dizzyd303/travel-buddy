@@ -1,36 +1,50 @@
-import React from 'react'
+import { useState } from 'react'
 
 export default function SignUpForm() {
+  const [email, setEmail] = useState('')
+  const [submitted, setSubmitted] = useState(false)
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    // Netlify will handle the actual submission via the form's hidden input
+    setSubmitted(true)
+    // Clear the email field after a moment
+    setTimeout(() => setSubmitted(false), 3000)
+    setEmail('')
+  }
+
   return (
-    <div className="card signup" aria-label="Signup">
-      <h3>Join the Pilot</h3>
-      <p>Be first to test the MVP and provide feedback. We’ll notify you as features roll out.</p>
-      <form
-        name="travelbuddy-signup"
-        method="POST"
-        data-netlify="true"
-        onSubmit={(e) => {
-          // Netlify Forms will handle this
-        }}
-      >
-        <input type="hidden" name="form-name" value="travelbuddy-signup" />
-        <div className="form-row">
-          <label>Your name</label>
-          <input name="name" type="text" placeholder="Your name" required />
-        </div>
-        <div className="form-row">
-          <label>Email</label>
-          <input name="email" type="email" placeholder="Email" required />
-        </div>
-        <div className="form-row">
-          <label>Location (City, State)</label>
-          <input name="location" type="text" placeholder="City, State" required />
-        </div>
-        <button className="btn primary" type="submit" style={{ marginTop: 8 }}>
-          Sign Up
-        </button>
-      </form>
-    </div>
+    <section className="signup-section">
+      <div className="container">
+        <h2>Get Early Access</h2>
+        <p>Be the first to know when new parking spots are added.</p>
+        <form
+          name="trucker-signup"
+          method="POST"
+          data-netlify="true"
+          netlify-honeypot="bot-field"
+          onSubmit={handleSubmit}
+        >
+          <input type="hidden" name="form-name" value="trucker-signup" />
+          <p className="hidden">
+            <label>
+              Don’t fill this out: <input name="bot-field" />
+            </label>
+          </p>
+          <div className="form-group">
+            <input
+              type="email"
+              name="email"
+              placeholder="Your email address"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <button type="submit">Notify Me</button>
+          </div>
+        </form>
+        {submitted && <p className="success-msg">Thanks! We'll be in touch.</p>}
+      </div>
+    </section>
   )
 }
-
