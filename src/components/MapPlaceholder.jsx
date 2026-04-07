@@ -1,4 +1,3 @@
-cat > ~/travel-buddy/src/components/MapPlaceholder.jsx << 'EOF'
 import { useEffect, useRef, useState } from 'react'
 import leaflet from 'leaflet'
 import 'leaflet/dist/leaflet.css'
@@ -82,4 +81,3 @@ export default function MapPlaceholder() {
     </div>
   )
 }
-EOF

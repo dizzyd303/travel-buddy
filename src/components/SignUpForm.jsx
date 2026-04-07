@@ -1,4 +1,3 @@
-cat > ~/travel-buddy/src/components/SignUpForm.jsx << 'EOF'
 import { useState } from 'react'
 
 export default function SignUpForm() {
@@ -11,7 +10,6 @@ export default function SignUpForm() {
     setStatus('loading')
     
     try {
-      // Replace with your Formspree endpoint URL
       const response = await fetch('https://formspree.io/f/YOUR_FORM_ID_HERE', {
         method: 'POST',
         headers: {
@@ -61,4 +59,3 @@ export default function SignUpForm() {
     </section>
   )
 }
-EOF
