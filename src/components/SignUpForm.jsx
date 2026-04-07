@@ -10,7 +10,7 @@ export default function SignUpForm() {
     setStatus('loading')
     
     try {
-      const response = await fetch('https://formspree.io/f/YOUR_FORM_ID_HERE', {
+      const response = await fetch('https://formspree.io/f/xlgozgke', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
