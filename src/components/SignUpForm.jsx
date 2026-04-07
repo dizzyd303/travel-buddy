@@ -1,16 +1,37 @@
-import { useState } from 'react'
+	mport { useState } from 'react'
 
 export default function SignUpForm() {
   const [email, setEmail] = useState('')
-  const [submitted, setSubmitted] = useState(false)
+  const [status, setStatus] = useState('idle') // idle, loading, success, error
+  const [message, setMessage] = useState('')
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    // Netlify will handle the actual submission via the form's hidden input
-    setSubmitted(true)
-    // Clear the email field after a moment
-    setTimeout(() => setSubmitted(false), 3000)
-    setEmail('')
+    setStatus('loading')
+    
+    try {
+      // Replace THIS_URL with your actual Formspree endpoint
+      const response = await fetch(https://formspree.io/f/xlgozgke, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      })
+      
+      if (response.ok) {
+        setStatus('success')
+        setMessage('Thanks! You\'re on the list 🚛')
+        setEmail('')
+        setTimeout(() => setStatus('idle'), 3000)
+      } else {
+        throw new Error('Form submission failed')
+      }
+    } catch (error) {
+      setStatus('error')
+      setMessage('Something went wrong. Please try again.')
+      setTimeout(() => setStatus('idle'), 3000)
+    }
   }
 
   return (
@@ -18,32 +39,23 @@ export default function SignUpForm() {
       <div className="container">
         <h2>Get Early Access</h2>
         <p>Be the first to know when new parking spots are added.</p>
-        <form
-          name="trucker-signup"
-          method="POST"
-          data-netlify="true"
-          netlify-honeypot="bot-field"
-          onSubmit={handleSubmit}
-        >
-          <input type="hidden" name="form-name" value="trucker-signup" />
-          <p className="hidden">
-            <label>
-              Don’t fill this out: <input name="bot-field" />
-            </label>
-          </p>
+        <form onSubmit={handleSubmit}>
           <div className="form-group">
             <input
               type="email"
-              name="email"
               placeholder="Your email address"
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              disabled={status === 'loading'}
             />
-            <button type="submit">Notify Me</button>
+            <button type="submit" disabled={status === 'loading'}>
+              {status === 'loading' ? 'Sending...' : 'Notify Me'}
+            </button>
           </div>
         </form>
-        {submitted && <p className="success-msg">Thanks! We'll be in touch.</p>}
+        {status === 'success' && <p className="success-msg">{message}</p>}
+        {status === 'error' && <p className="error-msg">{message}</p>}
       </div>
     </section>
   )

@@ -31,3 +31,13 @@ p { color: var(--muted); }
   .parking-grid { grid-template-columns: 1fr; }
 }
 
+.error-msg {
+  color: #ef4444;
+  margin-top: 1rem;
+  font-weight: 500;
+}
+.success-msg {
+  color: #10b981;
+  margin-top: 1rem;
+  font-weight: 500;
+}
