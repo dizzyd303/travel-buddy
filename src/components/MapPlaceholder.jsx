@@ -1,4 +1,5 @@
-	mport { useEffect, useRef, useState } from 'react'
+cat > ~/travel-buddy/src/components/MapPlaceholder.jsx << 'EOF'
+import { useEffect, useRef, useState } from 'react'
 import leaflet from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import parkingStops from '../data/parkingStops.js'
@@ -29,7 +30,6 @@ export default function MapPlaceholder() {
       maxZoom: 19
     }).addTo(map)
 
-    // Add markers
     parkingStops.forEach(stop => {
       leaflet.marker([stop.lat, stop.lng])
         .addTo(map)
@@ -82,3 +82,4 @@ export default function MapPlaceholder() {
     </div>
   )
 }
+EOF
